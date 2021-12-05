@@ -6,6 +6,8 @@
 // | (  \ \   | |   | |         / /\  /  | (         | |   | (   ) |  
 // | )___) )  | |   | (____/\  (  \/  \  | (____/\   | |   | )   ( |  
 // |/ \___/   )_(   (_______/   \___/\/  (_______/   )_(   |/     \|  
+//
+// Duino-Coin
 //                                                                    
 // __________________ _______  _        _______  _______              
 // \__   __/\__   __/(  ____ \| \    /\(  ____ \(  ____ )             
@@ -59,18 +61,11 @@ void setup() {
   Heltec.display -> display();
   delay(2000);
   
-  //this draws the BTC logo - delete up to the delay if you don't need it
-  Heltec.display -> clear();
-  Heltec.display -> drawXbm(0, 0, BTC_width, BTC_height, BTClogo_bits);
-  Heltec.display -> display();
-  delay(2000);
-  Heltec.display->clear();
-  
-  //this draws the BTC logo - delete up to the delay if you don't need it
+  //this draws the WiFI logo - delete up to the delay if you don't need it
   Heltec.display -> clear();
   Heltec.display -> drawXbm(0, 0, WIFI_width, WIFI_height, WIFIlogo_bits);
   Heltec.display -> display();
-  delay(1000);
+  delay(500);
   Heltec.display->clear();
 
   Serial.print("Connecting to Wifi");
@@ -218,15 +213,27 @@ void loop() {
 
 //Screen Outputs----------------------------|
 
-    u8g2.clearBuffer();
+    //u8g2.clearBuffer();
 
     //u8g2.setFont(u8g2_font_inb38_mf);
 
 
+  //this draws the BTC logo - delete up to the delay if you don't need it
+    Heltec.display -> clear();
+    Heltec.display -> drawXbm(0, 0, BTC_width, BTC_height, BTClogo_bits);
+    Heltec.display -> display();
+
+    delay(5000);
+    u8g2.begin();
+    u8g2.setFont(u8g2_font_6x12_t_symbols);
+    u8g2.setFontRefHeightExtendedText();
+    u8g2.setDrawColor(2);
+    u8g2.setFontPosTop();
+    u8g2.setFontDirection(0);
+
 //USD BTC
     u8g2.setCursor(0, 0);
     u8g2.print("Bitcoin: ");
-
     u8g2.setCursor(0, 10);
     u8g2.print("USD: ");
     u8g2.print(bitcoin_usd, 0);
@@ -234,22 +241,104 @@ void loop() {
     u8g2.print("USD: 24hr ");
     u8g2.print(bitcoin_usd_24h_change);
     u8g2.print(" %");
+    u8g2.sendBuffer();
+    
+    delay(10000);
+    u8g2.clearBuffer();
+    u8g2.sendBuffer();
+    
+//this draws the ETH logo - delete up to the delay if you don't need it
+    Heltec.display -> clear();
+    Heltec.display -> drawXbm(0, 0, ETH_width, ETH_height, ETHlogo_bits);
+    Heltec.display -> display();
+
+    delay(5000);
+    u8g2.begin();
+    u8g2.setFont(u8g2_font_6x12_t_symbols);
+    u8g2.setFontRefHeightExtendedText();
+    u8g2.setDrawColor(3);
+    u8g2.setFontPosTop();
+    u8g2.setFontDirection(0);
 
 //USD ETH
-    u8g2.setCursor(0, 30);
+    u8g2.setCursor(0, 0);
     u8g2.print("Ethereum: ");
-    
-    u8g2.setCursor(0, 40);
+    u8g2.setCursor(0, 10);
     u8g2.print("USD: ");
     u8g2.print(ethereum_usd, 0);
-    u8g2.setCursor(0, 50);
+    u8g2.setCursor(0, 20);
     u8g2.print("USD: 24hr ");
     u8g2.print(ethereum_usd_24h_change);
     u8g2.print(" %");
-
     u8g2.sendBuffer();
+    
+    delay(10000);
+    u8g2.clearBuffer();  
+      
     http.end();
+    u8g2.sendBuffer();
+  }
+  
+//DUCO
+  if ((WiFi.status() == WL_CONNECTED))
+
+  {
+    HTTPClient http;
+    http.begin ("https://magi.duinocoin.com/statistics");
+    int httpCode = http.GET();
+
+    if (httpCode > 0) {
+
+    }
+
+    Serial.println ("\nStatuscode: " + String(httpCode));
+    delay (100);
+
+    const size_t capacity = JSON_OBJECT_SIZE(2) + 2 * JSON_OBJECT_SIZE(6) + 150;
+    DynamicJsonDocument doc(capacity);
+    String payload = http.getString();
+    const char* json = payload.c_str();
+
+    deserializeJson(doc, json);
+    JsonObject duinocoin = doc["result"];
+    float duco_price = duinocoin["ducoexchange"]; // 0.00030916
+    float duco_max = duinocoin["max"]; // 0.00146943
+
+    Serial.println("-------------------------------");
+    Serial.print("Duco: ");
+    Serial.println(duco_price);
+    Serial.print("Max: ");
+    Serial.println(duco_max);
+    Serial.println("-------------------------------");
+    
+//this draws the DUCO logo - delete up to the delay if you don't need it
+    Heltec.display -> clear();
+    Heltec.display -> drawXbm(0, 0, DUCO_width, DUCO_height, DUCOlogo_bits);
+    Heltec.display -> display();
+
+    delay(5000);
+    u8g2.begin();
+    u8g2.setFont(u8g2_font_6x12_t_symbols);
+    u8g2.setFontRefHeightExtendedText();
+    u8g2.setDrawColor(3);
+    u8g2.setFontPosTop();
+    u8g2.setFontDirection(0);
+
+    u8g2.setCursor(0, 0);
+    u8g2.print("Duino-Coin: ");
+
+    u8g2.setCursor(0, 10);
+    u8g2.print("Price: ");
+    u8g2.print(duco_price, 0);
+    u8g2.setCursor(0, 20);
+    u8g2.print("Max: ");
+    u8g2.print(duco_max);
+    u8g2.sendBuffer();
+    
     delay(10000); //  seconds to update.
+    u8g2.clearBuffer();
+
+    http.end();
     u8g2.sendBuffer();
   }
 }
