@@ -1,23 +1,27 @@
-//  ______ _________ _______      __      _______ _________           
-// (  ___ \\__   __/(  ____ \    /__\    (  ____ \\__   __/|\     /|  
-// | (   ) )  ) (   | (    \/   ( \/ )   | (    \/   ) (   | )   ( |  
-// | (__/ /   | |   | |          \  /    | (__       | |   | (___) |  
-// |  __ (    | |   | |          /  \/\  |  __)      | |   |  ___  |  
-// | (  \ \   | |   | |         / /\  /  | (         | |   | (   ) |  
-// | )___) )  | |   | (____/\  (  \/  \  | (____/\   | |   | )   ( |  
-// |/ \___/   )_(   (_______/   \___/\/  (_______/   )_(   |/     \|  
-//
-// Duino-Coin
-//                                                                    
-// __________________ _______  _        _______  _______              
-// \__   __/\__   __/(  ____ \| \    /\(  ____ \(  ____ )             
-//    ) (      ) (   | (    \/|  \  / /| (    \/| (    )|             
-//    | |      | |   | |      |  (_/ / | (__    | (____)|             
-//    | |      | |   | |      |   _ (  |  __)   |     __)             
-//    | |      | |   | |      |  ( \ \ | (      | (\ (                
-//    | |   ___) (___| (____/\|  /  \ \| (____/\| ) \ \__             
-//    )_(   \_______/(_______/|_/    \/(_______/|/   \__/             
-//                                                                    
+/*  
+  ______ _________ _______      __      _______ _________           
+ (  ___ \\__   __/(  ____ \    /__\    (  ____ \\__   __/|\     /|  
+ | (   ) )  ) (   | (    \/   ( \/ )   | (    \/   ) (   | )   ( |  
+ | (__/ /   | |   | |          \  /    | (__       | |   | (___) |  
+ |  __ (    | |   | |          /  \/\  |  __)      | |   |  ___  |  
+ | (  \ \   | |   | |         / /\  /  | (         | |   | (   ) |  
+ | )___) )  | |   | (____/\  (  \/  \  | (____/\   | |   | )   ( |  
+ |/ \___/   )_(   (_______/   \___/\/  (_______/   )_(   |/     \|  
+ 
+  ,------.          ,--.                       ,-----.       ,--.         
+  |  .-.  \ ,--.,--.`--',--,--,  ,---. ,-----.'  .--./ ,---. `--',--,--,  
+  |  |  \  :|  ||  |,--.|      \| .-. |'-----'|  |    | .-. |,--.|      \ 
+  |  '--'  /'  ''  '|  ||  ||  |' '-' '       '  '--'\' '-' '|  ||  ||  | 
+  `-------'  `----' `--'`--''--' `---'         `-----' `---' `--'`--''--'                                                                   
+ __________________ _______  _        _______  _______              
+ \__   __/\__   __/(  ____ \| \    /\(  ____ \(  ____ )             
+    ) (      ) (   | (    \/|  \  / /| (    \/| (    )|             
+    | |      | |   | |      |  (_/ / | (__    | (____)|             
+    | |      | |   | |      |   _ (  |  __)   |     __)             
+    | |      | |   | |      |  ( \ \ | (      | (\ (                
+    | |   ___) (___| (____/\|  /  \ \| (____/\| ) \ \__             
+    )_(   \_______/(_______/|_/    \/(_______/|/   \__/             
+*/                                                               
 
 //Includes-------------------------------------------|
 #include <WiFi.h>
@@ -177,39 +181,22 @@ void loop() {
     float ethereum_usd = ethereum["usd"]; // 324.6
     float ethereum_usd_24h_change = ethereum["usd_24h_change"]; // 4.577442219792744
 
-    Serial.println("-------------------------------");
-
-    Serial.print("EUR: ");
-    Serial.println(bitcoin_eur);
-    Serial.print("EUR 24hr %: ");
-    Serial.println(bitcoin_eur_24h_change);
-
-    Serial.print("GBP: ");
-    Serial.println(bitcoin_gbp);
-    Serial.print("GBP 24hr %: ");
-    Serial.println(bitcoin_gbp_24h_change);
-
+    Serial.println("-----------------Bitcoin-----------------");
+    
     Serial.print("USD: ");
     Serial.println(bitcoin_usd);
     Serial.print("USD 24hr %: ");
     Serial.println(bitcoin_gbp_24h_change);
-
+    Serial.println("-----------------");
     Serial.print("EUR: ");
-    Serial.println(ethereum_eur);
+    Serial.println(bitcoin_eur);
     Serial.print("EUR 24hr %: ");
-    Serial.println(ethereum_eur_24h_change);
-
+    Serial.println(bitcoin_eur_24h_change);
+    Serial.println("-----------------");
     Serial.print("GBP: ");
-    Serial.println(ethereum_gbp);
+    Serial.println(bitcoin_gbp);
     Serial.print("GBP 24hr %: ");
-    Serial.println(ethereum_gbp_24h_change);
-
-    Serial.print("USD: ");
-    Serial.println(ethereum_usd);
-    Serial.print("USD 24hr %: ");
-    Serial.println(ethereum_usd_24h_change);
-
-    Serial.println("-------------------------------");
+    Serial.println(bitcoin_gbp_24h_change);
 
 //Screen Outputs----------------------------|
 
@@ -218,7 +205,7 @@ void loop() {
     //u8g2.setFont(u8g2_font_inb38_mf);
 
 
-  //this draws the BTC logo - delete up to the delay if you don't need it
+//this draws the BTC logo
     Heltec.display -> clear();
     Heltec.display -> drawXbm(0, 0, BTC_width, BTC_height, BTClogo_bits);
     Heltec.display -> display();
@@ -246,6 +233,25 @@ void loop() {
     delay(10000);
     u8g2.clearBuffer();
     u8g2.sendBuffer();
+
+    Serial.println("-----------------Ethereum-----------------");
+
+    Serial.print("USD: ");
+    Serial.println(ethereum_usd);
+    Serial.print("USD 24hr %: ");
+    Serial.println(ethereum_usd_24h_change);
+    Serial.println("-----------------");
+    Serial.print("EUR: ");
+    Serial.println(ethereum_eur);
+    Serial.print("EUR 24hr %: ");
+    Serial.println(ethereum_eur_24h_change);
+    Serial.println("-----------------");
+    Serial.print("GBP: ");
+    Serial.println(ethereum_gbp);
+    Serial.print("GBP 24hr %: ");
+    Serial.println(ethereum_gbp_24h_change);
+
+    Serial.println("-------------------------------");
     
 //this draws the ETH logo - delete up to the delay if you don't need it
     Heltec.display -> clear();
@@ -284,7 +290,7 @@ void loop() {
 
   {
     HTTPClient http;
-    http.begin ("https://magi.duinocoin.com/statistics");
+    http.begin ("https://server.duinocoin.com/users/robertbrann18?ids=%2Cbalance%2Cusername=true");
     int httpCode = http.GET();
 
     if (httpCode > 0) {
@@ -300,15 +306,15 @@ void loop() {
     const char* json = payload.c_str();
 
     deserializeJson(doc, json);
-    JsonObject duinocoin = doc["result"];
-    float duco_price = duinocoin["ducoexchange"]; // 0.00030916
-    float duco_max = duinocoin["max"]; // 0.00146943
+    JsonObject duinocoin = doc["result"]["balance"];
+    float duco_balance = duinocoin["balance"]; //
+    const char* duco_user = duinocoin["username"]; //
 
     Serial.println("-------------------------------");
-    Serial.print("Duco: ");
-    Serial.println(duco_price);
-    Serial.print("Max: ");
-    Serial.println(duco_max);
+    Serial.print("Username: ");
+    Serial.println(duco_user);
+    Serial.print("DUCO Balance: ");
+    Serial.println(duco_balance);
     Serial.println("-------------------------------");
     
 //this draws the DUCO logo - delete up to the delay if you don't need it
@@ -328,11 +334,16 @@ void loop() {
     u8g2.print("Duino-Coin: ");
 
     u8g2.setCursor(0, 10);
-    u8g2.print("Price: ");
-    u8g2.print(duco_price, 0);
+    u8g2.print("Username: ");
+    u8g2.print(duco_user);
     u8g2.setCursor(0, 20);
-    u8g2.print("Max: ");
-    u8g2.print(duco_max);
+    u8g2.print("Balance: ");
+    u8g2.print(duco_balance);
+
+    u8g2.setCursor(0, 30);
+    u8g2.print("TEST: ");
+    u8g2.print(duinocoin, 0);
+    
     u8g2.sendBuffer();
     
     delay(10000); //  seconds to update.
