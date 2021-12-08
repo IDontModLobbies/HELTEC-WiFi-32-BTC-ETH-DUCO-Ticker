@@ -8,11 +8,7 @@
  | )___) )  | |   | (____/\  (  \/  \  | (____/\   | |   | )   ( |  
  |/ \___/   )_(   (_______/   \___/\/  (_______/   )_(   |/     \|  
  
-  ,------.          ,--.                       ,-----.       ,--.         
-  |  .-.  \ ,--.,--.`--',--,--,  ,---. ,-----.'  .--./ ,---. `--',--,--,  
-  |  |  \  :|  ||  |,--.|      \| .-. |'-----'|  |    | .-. |,--.|      \ 
-  |  '--'  /'  ''  '|  ||  ||  |' '-' '       '  '--'\' '-' '|  ||  ||  | 
-  `-------'  `----' `--'`--''--' `---'         `-----' `---' `--'`--''--'                                                                   
+                                                                 
  __________________ _______  _        _______  _______              
  \__   __/\__   __/(  ____ \| \    /\(  ____ \(  ____ )             
     ) (      ) (   | (    \/|  \  / /| (    \/| (    )|             
@@ -20,7 +16,14 @@
     | |      | |   | |      |   _ (  |  __)   |     __)             
     | |      | |   | |      |  ( \ \ | (      | (\ (                
     | |   ___) (___| (____/\|  /  \ \| (____/\| ) \ \__             
-    )_(   \_______/(_______/|_/    \/(_______/|/   \__/             
+    )_(   \_______/(_______/|_/    \/(_______/|/   \__/   
+
+  ,------.          ,--.                       ,-----.       ,--.         
+  |  .-.  \ ,--.,--.`--',--,--,  ,---. ,-----.'  .--./ ,---. `--',--,--,  
+  |  |  \  :|  ||  |,--.|      \| .-. |'-----'|  |    | .-. |,--.|      \ 
+  |  '--'  /'  ''  '|  ||  ||  |' '-' '       '  '--'\' '-' '|  ||  ||  | 
+  `-------'  `----' `--'`--''--' `---'         `-----' `---' `--'`--''--'  
+  
 */                                                               
 
 //Includes-------------------------------------------|
@@ -40,8 +43,8 @@
 U8G2_SSD1306_128X64_NONAME_F_HW_I2C     u8g2(U8G2_R0, 16, 15, 4);
 
 //Constants and Variables----------------------------|
-const char* ssid     = "NETGEAR39"; //Replace with your SSID
-const char* password = "niftyjade691"; //Replace with your SSID password
+const char* ssid     = "NETGEAR39";     //Replace "<NETWORK_NAME>" with yours.
+const char* password = "niftyjade691";  //Replace "<PASSWORD>" with yours.
 char chBuffer[128];
 
 //Setup----------------------------------------------|
@@ -321,7 +324,7 @@ void loop() {
 
   {
     HTTPClient http;
-    http.begin ("https://server.duinocoin.com/users/robertbrann18?ids=%2Cbalance%2Cusername=true");
+    http.begin ("https://server.duinocoin.com/users/robertbrann18?ids=%2Cbalance%2Cusername=true"); //Replace "<USERNAME>" with your Duino-Coin Username.
     int httpCode = http.GET();
 
     if (httpCode > 0) {
@@ -382,46 +385,49 @@ void loop() {
 
 //Uncomment and replace to your preference.
 
-//EUR BTC
-    //u8g2.setCursor(40, 0);
-    //u8g2.print("Bitcoin ");
-    //u8g2.setCursor(0, 20);
-    //u8g2.print("GBP: ");
-    //u8g2.print(bitcoin_gbp, 0);
-    //u8g2.setCursor(0, 30);
-    //u8g2.print("GBP: 24hr ");
-    //u8g2.print(bitcoin_gbp_24h_change);
-    //u8g2.print(" %");
+/*
 
+//EUR BTC
+    u8g2.setCursor(40, 0);
+    u8g2.print("Bitcoin ");
+    u8g2.setCursor(0, 20);
+    u8g2.print("GBP: ");
+    u8g2.print(bitcoin_gbp, 0);
+    u8g2.setCursor(0, 30);
+    u8g2.print("GBP: 24hr ");
+    u8g2.print(bitcoin_gbp_24h_change);
+    u8g2.print(" %");
+    
 //EUR ETH
-    //u8g2.setCursor(40, 0);
-    //u8g2.print("Ethereum ");
-    //u8g2.setCursor(0, 20);
-    //u8g2.print("EUR: ");
-    //u8g2.print(ethereum_eur, 0);
-    //u8g2.setCursor(0, 30);
-    //u8g2.print("EUR: 24hr ");
-    //u8g2.print(ethereum_eur_24h_change);
-    //u8g2.print(" %");
+    u8g2.setCursor(40, 0);
+    u8g2.print("Ethereum ");
+    u8g2.setCursor(0, 20);
+    u8g2.print("EUR: ");
+    u8g2.print(ethereum_eur, 0);
+    u8g2.setCursor(0, 30);
+    u8g2.print("EUR: 24hr ");
+    u8g2.print(ethereum_eur_24h_change);
+    u8g2.print(" %");
 
 //GBP BTC
-    //u8g2.setCursor(40, 0);
-    //u8g2.print("Bitcoin ");
-    //u8g2.setCursor(0, 20);
-    //u8g2.print("GBP: ");
-    //u8g2.print(bitcoin_gbp, 0);
-    //u8g2.setCursor(0, 30);
-    //u8g2.print("GBP: 24hr ");
-    //u8g2.print(bitcoin_gbp_24h_change);
-    //u8g2.print(" %");
+    u8g2.setCursor(40, 0);
+    u8g2.print("Bitcoin ");
+    u8g2.setCursor(0, 20);
+    u8g2.print("GBP: ");
+    u8g2.print(bitcoin_gbp, 0);
+    u8g2.setCursor(0, 30);
+    u8g2.print("GBP: 24hr ");
+    u8g2.print(bitcoin_gbp_24h_change);
+    u8g2.print(" %");
     
 //GBP EUR
-    //u8g2.setCursor(40, 0);
-    //u8g2.print("Ethereum ");
-    //u8g2.setCursor(0, 20);
-    //u8g2.print("GBP: ");
-    //u8g2.print(ethereum_gbp, 0);
-    //u8g2.setCursor(0, 30);
-    //u8g2.print("GBP: 24hr ");
-    //u8g2.print(ethereum_gbp_24h_change);
-    //u8g2.print(" %");
+    u8g2.setCursor(40, 0);
+    u8g2.print("Ethereum ");
+    u8g2.setCursor(0, 20);
+    u8g2.print("GBP: ");
+    u8g2.print(ethereum_gbp, 0);
+    u8g2.setCursor(0, 30);
+    u8g2.print("GBP: 24hr ");
+    u8g2.print(ethereum_gbp_24h_change);
+    u8g2.print(" %");
+*/
