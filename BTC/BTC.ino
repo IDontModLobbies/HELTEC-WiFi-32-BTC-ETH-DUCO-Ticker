@@ -40,8 +40,8 @@
 U8G2_SSD1306_128X64_NONAME_F_HW_I2C     u8g2(U8G2_R0, 16, 15, 4);
 
 //Constants and Variables----------------------------|
-const char* ssid     = "NETGEAR39";
-const char* password = "niftyjade691";
+const char* ssid     = "NETGEAR39"; //Replace with your SSID
+const char* password = "niftyjade691"; //Replace with your SSID password
 char chBuffer[128];
 
 //Setup----------------------------------------------|
@@ -51,23 +51,53 @@ void setup() {
 
   pinMode(ONBOARD_LED, OUTPUT);
 
-  //anything that starts with HELTEC is related to the display
+//Anything that starts with HELTEC is related to the display.
   Heltec.begin(true /*DisplayEnable Enable*/, false /*LoRa Enable*/, true /*Serial Enable*/);
 
-  Heltec.display->setTextAlignment(TEXT_ALIGN_LEFT);
+  Heltec.display->setTextAlignment(TEXT_ALIGN_CENTER);
   Heltec.display->setFont(ArialMT_Plain_10);
   Heltec.display->drawString(0, 0, "Hello world");
-  delay(2000);
+  delay(100);
   Heltec.display->clear();
   
-  //this draws the IDML logo - delete up to the delay if you don't need it
+//Draws the IDML logo
   Heltec.display -> drawXbm(0, 0, IDML_width, IDML_height, IDMLlogo_bits);
   Heltec.display -> display();
   delay(2000);
   
-  //this draws the WiFI logo - delete up to the delay if you don't need it
+//Draws the WiFI logo
   Heltec.display -> clear();
-  Heltec.display -> drawXbm(0, 0, WIFI_width, WIFI_height, WIFIlogo_bits);
+  Heltec.display -> drawXbm(0, 0, WIFI1_width, WIFI1_height, WIFI1logo_bits);
+  Heltec.display->setTextAlignment(TEXT_ALIGN_LEFT);
+  Heltec.display->setFont(ArialMT_Plain_10);
+  Heltec.display->drawString(50, 50, ssid);
+  Heltec.display -> display();
+  delay(500);
+  Heltec.display->clear();
+
+  Heltec.display -> clear();
+  Heltec.display -> drawXbm(0, 0, WIFI2_width, WIFI2_height, WIFI2logo_bits);
+  Heltec.display->setTextAlignment(TEXT_ALIGN_LEFT);
+  Heltec.display->setFont(ArialMT_Plain_10);
+  Heltec.display->drawString(50, 50, ssid);
+  Heltec.display -> display();
+  delay(500);
+  Heltec.display->clear();
+
+  Heltec.display -> clear();
+  Heltec.display -> drawXbm(0, 0, WIFI3_width, WIFI3_height, WIFI3logo_bits);
+  Heltec.display->setTextAlignment(TEXT_ALIGN_LEFT);
+  Heltec.display->setFont(ArialMT_Plain_10);
+  Heltec.display->drawString(50, 50, ssid);
+  Heltec.display -> display();
+  delay(500);
+  Heltec.display->clear();
+
+  Heltec.display -> clear();
+  Heltec.display -> drawXbm(0, 0, WIFI4_width, WIFI4_height, WIFI4logo_bits);
+  Heltec.display->setTextAlignment(TEXT_ALIGN_LEFT);
+  Heltec.display->setFont(ArialMT_Plain_10);
+  Heltec.display->drawString(50, 50, ssid);
   Heltec.display -> display();
   delay(500);
   Heltec.display->clear();
@@ -79,7 +109,8 @@ void setup() {
     Serial.print(".");
     delay (1250);
   }
-  // Oled Screen Startup 0.96-inch 128*64 dot matrix OLED
+
+// Oled Screen Startup 0.96-inch 128*64 dot matrix OLED.
 
   u8g2.begin();
   u8g2.setFont(u8g2_font_6x12_t_symbols);
@@ -91,39 +122,39 @@ void setup() {
 
   // Display Wifi Connecting to....
 
-  u8g2.clearBuffer();
+  //u8g2.clearBuffer();
 
   //u8g2.print("Connecting to Wifi: ", ssid);
 
-  u8g2.setCursor(0, 0);
-  u8g2.print("Connecting to Wifi");
+  //u8g2.setCursor(0, 10);
+  //u8g2.print("Connecting to WiFi");
 
-  u8g2.setCursor(0, 20);
-  u8g2.print(ssid);
+  //u8g2.setCursor(0, 20);
+  //u8g2.print(ssid);
 
-  u8g2.sendBuffer();
+  //u8g2.sendBuffer();
 
-  delay(2000);
+  //delay(2000);
 
-  u8g2.clearBuffer();
+  //u8g2.clearBuffer();
 
-  u8g2.setCursor(0, 0);
-  u8g2.print("Connected!");
+  //u8g2.setCursor(0, 0);
+  //u8g2.print("Connected!");
   
-  delay(2000);
+  delay(500);
 
   u8g2.clearBuffer();
 
-  sprintf(chBuffer, "%s", "WiFi Stats:");
+  sprintf(chBuffer, "%s", "WiFi Stats");
   u8g2.drawStr(64 - (u8g2.getStrWidth(chBuffer) / 2), 0, chBuffer);
 
-  // Display the ssid of the wifi router.
+//Display the SSID of the WiFi router.
 
   sprintf(chBuffer, "SSID: %s", ssid);
   u8g2.drawStr(0, FONT_ONE_HEIGHT * 3, chBuffer);
 
 
-  // Display the IP.
+//Display the IP.
 
   char  chIp[81];
   WiFi.localIP().toString().toCharArray(chIp, sizeof(chIp) - 1);
@@ -131,15 +162,15 @@ void setup() {
   u8g2.drawStr(0, FONT_ONE_HEIGHT * 2, chBuffer);
 
 
-  // Display the rssi.
+//Display the RSSI.
 
   sprintf(chBuffer, "RSSI: %d", WiFi.RSSI());
   u8g2.drawStr(0, FONT_ONE_HEIGHT, chBuffer);
 
-
   u8g2.sendBuffer();
-
   delay (5000);
+  u8g2.clearBuffer();
+  u8g2.sendBuffer();
 }
 
 void loop() {
@@ -205,7 +236,7 @@ void loop() {
     //u8g2.setFont(u8g2_font_inb38_mf);
 
 
-//this draws the BTC logo
+//Draws the BTC logo.
     Heltec.display -> clear();
     Heltec.display -> drawXbm(0, 0, BTC_width, BTC_height, BTClogo_bits);
     Heltec.display -> display();
@@ -219,18 +250,18 @@ void loop() {
     u8g2.setFontDirection(0);
 
 //USD BTC
-    u8g2.setCursor(0, 0);
-    u8g2.print("Bitcoin: ");
-    u8g2.setCursor(0, 10);
+    u8g2.setCursor(40, 0);
+    u8g2.print("Bitcoin ");
+    u8g2.setCursor(0, 20);
     u8g2.print("USD: ");
     u8g2.print(bitcoin_usd, 0);
-    u8g2.setCursor(0, 20);
+    u8g2.setCursor(0, 30);
     u8g2.print("USD: 24hr ");
     u8g2.print(bitcoin_usd_24h_change);
     u8g2.print(" %");
     u8g2.sendBuffer();
     
-    delay(10000);
+    delay(5000);
     u8g2.clearBuffer();
     u8g2.sendBuffer();
 
@@ -253,7 +284,7 @@ void loop() {
 
     Serial.println("-------------------------------");
     
-//this draws the ETH logo - delete up to the delay if you don't need it
+//Draws the ETH logo.
     Heltec.display -> clear();
     Heltec.display -> drawXbm(0, 0, ETH_width, ETH_height, ETHlogo_bits);
     Heltec.display -> display();
@@ -267,18 +298,18 @@ void loop() {
     u8g2.setFontDirection(0);
 
 //USD ETH
-    u8g2.setCursor(0, 0);
-    u8g2.print("Ethereum: ");
-    u8g2.setCursor(0, 10);
+    u8g2.setCursor(40, 0);
+    u8g2.print("Ethereum ");
+    u8g2.setCursor(0, 20);
     u8g2.print("USD: ");
     u8g2.print(ethereum_usd, 0);
-    u8g2.setCursor(0, 20);
+    u8g2.setCursor(0, 30);
     u8g2.print("USD: 24hr ");
     u8g2.print(ethereum_usd_24h_change);
     u8g2.print(" %");
     u8g2.sendBuffer();
     
-    delay(10000);
+    delay(5000);
     u8g2.clearBuffer();  
       
     http.end();
@@ -317,7 +348,7 @@ void loop() {
     Serial.println(duco_balance);
     Serial.println("-------------------------------");
     
-//this draws the DUCO logo - delete up to the delay if you don't need it
+//Draws the DUCO logo.
     Heltec.display -> clear();
     Heltec.display -> drawXbm(0, 0, DUCO_width, DUCO_height, DUCOlogo_bits);
     Heltec.display -> display();
@@ -330,23 +361,18 @@ void loop() {
     u8g2.setFontPosTop();
     u8g2.setFontDirection(0);
 
-    u8g2.setCursor(0, 0);
-    u8g2.print("Duino-Coin: ");
+    u8g2.setCursor(35, 0);
+    u8g2.print("Duino-Coin ");
 
-    u8g2.setCursor(0, 10);
-    u8g2.print("Username: ");
-    u8g2.print(duco_user);
     u8g2.setCursor(0, 20);
+    //u8g2.print("Username: ");
+    u8g2.print(duco_user);
+    u8g2.setCursor(0, 30);
     u8g2.print("Balance: ");
     u8g2.print(duco_balance);
-
-    u8g2.setCursor(0, 30);
-    u8g2.print("TEST: ");
-    u8g2.print(duinocoin, 0);
     
     u8g2.sendBuffer();
-    
-    delay(10000); //  seconds to update.
+    delay(10000);
     u8g2.clearBuffer();
 
     http.end();
@@ -354,46 +380,48 @@ void loop() {
   }
 }
 
+//Uncomment and replace to your preference.
+
 //EUR BTC
-    //u8g2.setCursor(0, 0);
-    //u8g2.print("Bitcoin: ");
-    //u8g2.setCursor(0, 10);
+    //u8g2.setCursor(40, 0);
+    //u8g2.print("Bitcoin ");
+    //u8g2.setCursor(0, 20);
     //u8g2.print("GBP: ");
     //u8g2.print(bitcoin_gbp, 0);
-    //u8g2.setCursor(0, 20);
+    //u8g2.setCursor(0, 30);
     //u8g2.print("GBP: 24hr ");
     //u8g2.print(bitcoin_gbp_24h_change);
     //u8g2.print(" %");
 
 //EUR ETH
-    //u8g2.setCursor(0, 30);
-    //u8g2.print("Ethereum: ");
-    //u8g2.setCursor(0, 40);
+    //u8g2.setCursor(40, 0);
+    //u8g2.print("Ethereum ");
+    //u8g2.setCursor(0, 20);
     //u8g2.print("EUR: ");
     //u8g2.print(ethereum_eur, 0);
-    //u8g2.setCursor(0, 50);
+    //u8g2.setCursor(0, 30);
     //u8g2.print("EUR: 24hr ");
     //u8g2.print(ethereum_eur_24h_change);
     //u8g2.print(" %");
 
 //GBP BTC
-    //u8g2.setCursor(0, 0);
-    //u8g2.print("Bitcoin: ");
-    //u8g2.setCursor(0, 10);
+    //u8g2.setCursor(40, 0);
+    //u8g2.print("Bitcoin ");
+    //u8g2.setCursor(0, 20);
     //u8g2.print("GBP: ");
     //u8g2.print(bitcoin_gbp, 0);
-    //u8g2.setCursor(0, 20);
+    //u8g2.setCursor(0, 30);
     //u8g2.print("GBP: 24hr ");
     //u8g2.print(bitcoin_gbp_24h_change);
     //u8g2.print(" %");
     
 //GBP EUR
-    //u8g2.setCursor(0, 30);
-    //u8g2.print("Ethereum: ");
-    //u8g2.setCursor(0, 40);
+    //u8g2.setCursor(40, 0);
+    //u8g2.print("Ethereum ");
+    //u8g2.setCursor(0, 20);
     //u8g2.print("GBP: ");
     //u8g2.print(ethereum_gbp, 0);
-    //u8g2.setCursor(0, 50);
+    //u8g2.setCursor(0, 30);
     //u8g2.print("GBP: 24hr ");
     //u8g2.print(ethereum_gbp_24h_change);
     //u8g2.print(" %");
