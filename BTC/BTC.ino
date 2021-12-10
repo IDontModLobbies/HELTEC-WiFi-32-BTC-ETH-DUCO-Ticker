@@ -105,7 +105,7 @@ void setup() {
   delay(500);
   Heltec.display->clear();
 
-  Serial.print("Connecting to Wifi");
+  Serial.print("Connecting to WiFi");
   WiFi.begin (ssid, password);
   while (WiFi.status() != WL_CONNECTED)
   {
@@ -122,30 +122,7 @@ void setup() {
   u8g2.setFontPosTop();
   u8g2.setFontDirection(0);
 
-
-  // Display Wifi Connecting to....
-
-  //u8g2.clearBuffer();
-
-  //u8g2.print("Connecting to Wifi: ", ssid);
-
-  //u8g2.setCursor(0, 10);
-  //u8g2.print("Connecting to WiFi");
-
-  //u8g2.setCursor(0, 20);
-  //u8g2.print(ssid);
-
-  //u8g2.sendBuffer();
-
-  //delay(2000);
-
-  //u8g2.clearBuffer();
-
-  //u8g2.setCursor(0, 0);
-  //u8g2.print("Connected!");
-  
   delay(500);
-
   u8g2.clearBuffer();
 
   sprintf(chBuffer, "%s", "WiFi Stats");
@@ -190,7 +167,7 @@ void loop() {
     }
 
     Serial.println ("\nStatuscode: " + String(httpCode));
-    delay (100);
+    delay (1000);
 
     const size_t capacity = JSON_OBJECT_SIZE(2) + 2 * JSON_OBJECT_SIZE(6) + 150;
     DynamicJsonDocument doc(capacity);
@@ -234,39 +211,22 @@ void loop() {
 
 //Screen Outputs----------------------------|
 
-    //u8g2.clearBuffer();
-
-    //u8g2.setFont(u8g2_font_inb38_mf);
-
-
 //Draws the BTC logo.
+    String BTC_USD = "$" + (String)bitcoin_usd;
+    String BTC_USD24H = "24hr: " + (String)bitcoin_usd_24h_change + "%";
     Heltec.display -> clear();
     Heltec.display -> drawXbm(0, 0, BTC_width, BTC_height, BTClogo_bits);
     Heltec.display -> display();
 
+    Heltec.display->setTextAlignment(TEXT_ALIGN_LEFT);
+    Heltec.display->setFont(ArialMT_Plain_10);
+    Heltec.display->drawString(40, 0, "Bitcoin");
+    Heltec.display->drawString(40, 20, BTC_USD);
+    Heltec.display->drawString(40, 30, BTC_USD24H);
+    Heltec.display -> display();
     delay(5000);
-    u8g2.begin();
-    u8g2.setFont(u8g2_font_6x12_t_symbols);
-    u8g2.setFontRefHeightExtendedText();
-    u8g2.setDrawColor(2);
-    u8g2.setFontPosTop();
-    u8g2.setFontDirection(0);
-
-//USD BTC
-    u8g2.setCursor(40, 0);
-    u8g2.print("Bitcoin ");
-    u8g2.setCursor(0, 20);
-    u8g2.print("USD: ");
-    u8g2.print(bitcoin_usd, 0);
-    u8g2.setCursor(0, 30);
-    u8g2.print("USD: 24hr ");
-    u8g2.print(bitcoin_usd_24h_change);
-    u8g2.print(" %");
-    u8g2.sendBuffer();
-    
-    delay(5000);
-    u8g2.clearBuffer();
-    u8g2.sendBuffer();
+    Heltec.display->clear();
+  
 
     Serial.println("-----------------Ethereum-----------------");
 
@@ -288,37 +248,22 @@ void loop() {
     Serial.println("-------------------------------");
     
 //Draws the ETH logo.
+    String ETH_USD = "$" + (String)ethereum_usd;
+    String ETH_USD24H = "24hr: " + (String)ethereum_usd_24h_change + "%";
     Heltec.display -> clear();
     Heltec.display -> drawXbm(0, 0, ETH_width, ETH_height, ETHlogo_bits);
     Heltec.display -> display();
 
+    Heltec.display->setTextAlignment(TEXT_ALIGN_LEFT);
+    Heltec.display->setFont(ArialMT_Plain_10);
+    Heltec.display->drawString(40, 0, "Ethereum (USD)");
+    Heltec.display->drawString(40, 20, ETH_USD);
+    Heltec.display->drawString(40, 30, ETH_USD24H);
+    Heltec.display -> display();
     delay(5000);
-    u8g2.begin();
-    u8g2.setFont(u8g2_font_6x12_t_symbols);
-    u8g2.setFontRefHeightExtendedText();
-    u8g2.setDrawColor(3);
-    u8g2.setFontPosTop();
-    u8g2.setFontDirection(0);
+    Heltec.display->clear();
+  }  
 
-//USD ETH
-    u8g2.setCursor(40, 0);
-    u8g2.print("Ethereum ");
-    u8g2.setCursor(0, 20);
-    u8g2.print("USD: ");
-    u8g2.print(ethereum_usd, 0);
-    u8g2.setCursor(0, 30);
-    u8g2.print("USD: 24hr ");
-    u8g2.print(ethereum_usd_24h_change);
-    u8g2.print(" %");
-    u8g2.sendBuffer();
-    
-    delay(5000);
-    u8g2.clearBuffer();  
-      
-    http.end();
-    u8g2.sendBuffer();
-  }
-  
 //DUCO
   if ((WiFi.status() == WL_CONNECTED))
 
@@ -341,93 +286,100 @@ void loop() {
 
     deserializeJson(doc, json);
     JsonObject duinocoin = doc["result"]["balance"];
-    float duco_balance = duinocoin["balance"]; //
+    float duco_bal = duinocoin["balance"]; //
     const char* duco_user = duinocoin["username"]; //
 
     Serial.println("-------------------------------");
     Serial.print("Username: ");
     Serial.println(duco_user);
     Serial.print("DUCO Balance: ");
-    Serial.println(duco_balance);
+    Serial.println(duco_bal);
     Serial.println("-------------------------------");
     
 //Draws the DUCO logo.
+    String DUCO_USERNAME = (String)duco_user;
+    String DUCO_BALANCE = "Balance: " + (String)duco_bal;
     Heltec.display -> clear();
     Heltec.display -> drawXbm(0, 0, DUCO_width, DUCO_height, DUCOlogo_bits);
     Heltec.display -> display();
 
+    Heltec.display->setTextAlignment(TEXT_ALIGN_LEFT);
+    Heltec.display->setFont(ArialMT_Plain_10);
+    Heltec.display->drawString(40, 0, "Duino-Coin");
+    Heltec.display->drawString(40, 20, DUCO_USERNAME);
+    Heltec.display->drawString(40, 30, DUCO_BALANCE);
+    Heltec.display -> display();
     delay(5000);
-    u8g2.begin();
-    u8g2.setFont(u8g2_font_6x12_t_symbols);
-    u8g2.setFontRefHeightExtendedText();
-    u8g2.setDrawColor(3);
-    u8g2.setFontPosTop();
-    u8g2.setFontDirection(0);
-
-    u8g2.setCursor(35, 0);
-    u8g2.print("Duino-Coin ");
-
-    u8g2.setCursor(0, 20);
-    //u8g2.print("Username: ");
-    u8g2.print(duco_user);
-    u8g2.setCursor(0, 30);
-    u8g2.print("Balance: ");
-    u8g2.print(duco_balance);
-    
-    u8g2.sendBuffer();
-    delay(10000);
-    u8g2.clearBuffer();
-
-    http.end();
-    u8g2.sendBuffer();
+    Heltec.display->clear();
   }
 }
 
-//Uncomment and replace to your preference.
+//Replace to your preference.
 
 /*
 
 //EUR BTC
-    u8g2.setCursor(40, 0);
-    u8g2.print("Bitcoin ");
-    u8g2.setCursor(0, 20);
-    u8g2.print("GBP: ");
-    u8g2.print(bitcoin_gbp, 0);
-    u8g2.setCursor(0, 30);
-    u8g2.print("GBP: 24hr ");
-    u8g2.print(bitcoin_gbp_24h_change);
-    u8g2.print(" %");
+    String BTC_EUR = "€" + (String)bitcoin_eur;
+    String BTC_USD24H = "24hr: " + (String)bitcoin_eur_24h_change + "%";
+    Heltec.display -> clear();
+    Heltec.display -> drawXbm(0, 0, BTC_width, BTC_height, BTClogo_bits);
+    Heltec.display -> display();
+
+    Heltec.display->setTextAlignment(TEXT_ALIGN_LEFT);
+    Heltec.display->setFont(ArialMT_Plain_10);
+    Heltec.display->drawString(40, 0, "Bitcoin (EUR)");
+    Heltec.display->drawString(40, 20, BTC_EUR);
+    Heltec.display->drawString(40, 30, BTC_EUR24H);
+    Heltec.display -> display();
+    delay(5000);
+    Heltec.display->clear();
     
 //EUR ETH
-    u8g2.setCursor(40, 0);
-    u8g2.print("Ethereum ");
-    u8g2.setCursor(0, 20);
-    u8g2.print("EUR: ");
-    u8g2.print(ethereum_eur, 0);
-    u8g2.setCursor(0, 30);
-    u8g2.print("EUR: 24hr ");
-    u8g2.print(ethereum_eur_24h_change);
-    u8g2.print(" %");
+    String ETH_EUR = "€" + (String)ethereum_eur;
+    String ETH_EUR24H = "24hr: " + (String)ethereum_eur_24h_change + "%";
+    Heltec.display -> clear();
+    Heltec.display -> drawXbm(0, 0, ETH_width, ETH_height, ETHlogo_bits);
+    Heltec.display -> display();
+
+    Heltec.display->setTextAlignment(TEXT_ALIGN_LEFT);
+    Heltec.display->setFont(ArialMT_Plain_10);
+    Heltec.display->drawString(40, 0, "Ethereum (EUR)");
+    Heltec.display->drawString(40, 20, ETH_EUR);
+    Heltec.display->drawString(40, 30, ETH_EUR24H);
+    Heltec.display -> display();
+    delay(5000);
+    Heltec.display->clear();
 
 //GBP BTC
-    u8g2.setCursor(40, 0);
-    u8g2.print("Bitcoin ");
-    u8g2.setCursor(0, 20);
-    u8g2.print("GBP: ");
-    u8g2.print(bitcoin_gbp, 0);
-    u8g2.setCursor(0, 30);
-    u8g2.print("GBP: 24hr ");
-    u8g2.print(bitcoin_gbp_24h_change);
-    u8g2.print(" %");
+    String BTC_GBP = (String)bitcoin_gbp;
+    String BTC_GBP24H = "24hr: " + (String)bitcoin_gbp_24h_change + "%";
+    Heltec.display -> clear();
+    Heltec.display -> drawXbm(0, 0, BTC_width, BTC_height, BTClogo_bits);
+    Heltec.display -> display();
+
+    Heltec.display->setTextAlignment(TEXT_ALIGN_LEFT);
+    Heltec.display->setFont(ArialMT_Plain_10);
+    Heltec.display->drawString(40, 0, "Bitcoin");
+    Heltec.display->drawString(40, 20, BTC_GBP);
+    Heltec.display->drawString(40, 30, BTC_GBP24H);
+    Heltec.display -> display();
+    delay(5000);
+    Heltec.display->clear();
     
 //GBP EUR
-    u8g2.setCursor(40, 0);
-    u8g2.print("Ethereum ");
-    u8g2.setCursor(0, 20);
-    u8g2.print("GBP: ");
-    u8g2.print(ethereum_gbp, 0);
-    u8g2.setCursor(0, 30);
-    u8g2.print("GBP: 24hr ");
-    u8g2.print(ethereum_gbp_24h_change);
-    u8g2.print(" %");
+    String ETH_GBP = (String)ethereum_gbp;
+    String ETH_GBP24H = "24hr: " + (String)ethereum_gbp_24h_change + "%";
+    Heltec.display -> clear();
+    Heltec.display -> drawXbm(0, 0, ETH_width, ETH_height, ETHlogo_bits);
+    Heltec.display -> display();
+
+    Heltec.display->setTextAlignment(TEXT_ALIGN_LEFT);
+    Heltec.display->setFont(ArialMT_Plain_10);
+    Heltec.display->drawString(40, 0, "Ethereum (USD)");
+    Heltec.display->drawString(40, 20, ETH_GBP);
+    Heltec.display->drawString(40, 30, ETH_GBP24H);
+    Heltec.display -> display();
+    delay(5000);
+    Heltec.display->clear();
+  
 */
